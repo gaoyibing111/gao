@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+      http://www.springframework.org/schema/context  
+      http://www.springframework.org/schema/context/spring-context.xsd  
+      http://www.springframework.org/schema/mvc  
+      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+	<!-- 一、在web.xml中配置 二、映射处理器。。 配置用于开启基于注解的springMVC功能，照web.xml中设定，路径为WEB-INF下 -->
+	<!--2 HandlerMapping -->
+	<bean
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+
+	<!--3 处理适配器 HandlerAdapter HandlerAdapter——>处理器功能处理方法的调用，HandlerAdapter将会根据适配的结果调用真正的处理器的功能处理方法，完成功能处理；并返回一个ModelAndView对象（包含模型数据、逻辑视图名）； -->
+	<bean
+		class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+
+
+	<!--Spring的组件自动扫描机制 启动包扫描功能， 会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 
+		两个bean, 是spring MVC为@Controller 用于标注控制层组件(如：Struts中的action)分发请求所必须的。并提供了：数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持，@Valid支持，读写XML的支持（JAXB），读写JSON的支持（Jackson）。 -->
+	<context:component-scan base-package="com.mvc" />
+
+	<!-- 4 将无法mapping到Controller的path交给default servlet handler处理 搞成模型视图，ModelView就是map集合 -->
+	<mvc:default-servlet-handler />
+
+	<!--5 JSP视图解析器 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
+	<!--5 ViewResolver -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!--重新定向，解析为视图 定义无Controller的path<->view直接映射 -->
+	<mvc:view-controller path="/" view-name="login" />
+	
+	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> 
+	<mvc:annotation-driven />
+
+	<!-- 设置静态文件目录，避免被过滤 -->
+	<mvc:resources mapping="/static/**" location="/static/" />
+
+<!-- 引用其它配置文件 -->
+	<import resource="classpath:applicationContext.xml" />
+	
+	
+	<!-- 页面拦截机     访问所有controller前先走这个类-->
+	    <mvc:interceptors>  
+        <bean class="com.mvc.interceptor.SystemInterceptor" />  
+    </mvc:interceptors>  
+
+	
+</beans>

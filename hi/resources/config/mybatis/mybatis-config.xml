@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    
+	<settings> <!-- 配置 -->
+		<!-- changes from the defaults -->
+		<setting name="lazyLoadingEnabled" value="false" /><!-- 全局性设置懒加载。如果设为‘false’，则所有相关联的都会被初始化加载。 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" /> <!-- 是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。  -->
+	</settings>
+
+
+
+	
+<mappers>
+	<!-- <mapper resource="mapper/SelectMapper.xml"/> -->
+</mappers>
+
+	
+</configuration>
