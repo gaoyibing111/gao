@@ -31,7 +31,30 @@ $(function(){
 
 
 
+var treeData = <%=request.getAttribute("treeJson") %>;
 
+$(function(){
+	$('#help_tree').tree({
+		checkbox: false,
+		animate:true,
+		lines:true,
+		data: treeData,
+		onClick:function(node) {
+			if (node.attributes && node.attributes.menuUrl) {
+				$('#show_win').panel('refresh','<%=request.getContextPath() %>' + node.attributes.menuUrl);
+				$('body').layout('panel', 'center').panel('setTitle', node.text);
+			} 
+		},
+		formatter: function(node) {
+			return node.text + "-";
+		}
+	});
+	$('#show_win').panel({
+				fit:true,
+				border:false,
+				noheader:false
+	});
+});
 </script>
 
 </head>
@@ -40,14 +63,17 @@ $(function(){
     <!--页面头部--><span style="font-size:14px;width:15px">欢迎你：${sessionScope.current}<a href="<%=request.getContextPath() %>/logout">&nbsp&nbsp退出</a></span>
     <h1 style="margin-left:800px;margin-top:20px;font-size:20px">职员管理系统 V1.0</h1>
 </div>
-<div region="west" split="true" style="width:220px;" title="导航菜单">
+<div data-options="region:'west',split:true,title:'导航窗口',iconCls:'icon-help'" style="width:248px;padding:5px; text-align:left;">
+	<ul id="help_tree" class="easyui-tree"></ul>
+</div>
+<%-- <div region="west" split="true" style="width:220px;" title="导航菜单">
 <div id="menu" style="font-size:20px;padding-top:20px;padding-left:40px;line-height:45px"  >
 <a  href="#" rel="<%=request.getContextPath() %>/select" >员工信息</a><br />
 <a  href="#" rel="<%=request.getContextPath() %>/update" >添加功能</a><br />
 <a  href="#" rel="<%=request.getContextPath() %>/admin" >账号管理</a><br />
 <a   href="#" rel="<%=request.getContextPath() %>/delete" >添加功能</a><br />
 </div>
-</div>
+</div> --%>
 <div region="center">
 <div id="tabs" class="easyui-tabs" fit="true" border="false" >
         <!--欢迎标签 START-->
