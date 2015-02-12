@@ -8,8 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.annotation.Annotation;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,43 +15,28 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;  
-import javax.servlet.http.HttpServletResponse;  
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.Response;
 
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-
-
-import com.ibm.wsdl.Constants;
-import com.mvc.util.Result;
-
-
-import org.springframework.stereotype.Controller;  
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;  
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;  
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;  
-import org.springframework.web.bind.annotation.RequestMethod;  
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;  
 
-import com.ctc.wstx.util.StringUtil;
-import com.mvc.dao.SelectDao;
+import com.google.gson.Gson;
 import com.mvc.domain.Admin;
 import com.mvc.domain.PageBean;
 import com.mvc.domain.User;
-import com.mvc.service.*;
+import com.mvc.service.SelectService;
+import com.mvc.service.SysMenuService;
+import com.mvc.util.EasyuiTreeNode;
+import com.mvc.util.Result;
+import com.mvc.util.WebFrontHelper;
 import com.mvc.util.fusion.Chart;
 import com.mvc.util.fusion.Dataset;
-import com.sun.beans.editors.IntegerEditor;
 
  
 @Controller  
@@ -126,32 +109,46 @@ public class SelectController {
 	}
 	
 	
+	@Resource
+	private SysMenuService sysMenuService;
 		
-		
-		@RequestMapping(value="/login",method = RequestMethod.POST)
+		@RequestMapping(value="/login",method = {  RequestMethod.POST ,RequestMethod.GET})
 		
 			
 		public String login(@RequestParam(value = "username", required=true)String username,
 				@RequestParam(value = "password", required=true)String password,
-				HttpSession session,Admin admin,HttpServletRequest request,HttpServletResponse response
+				HttpSession session,Admin admin,HttpServletRequest request,HttpServletResponse response,Model model
 				
 				) {
-			
+		
+		
 			String code = (String)session.getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
 			Admin user = this.selectService.loadUserByUsernameAndPassword(username,password);
 			String parm = (String)request.getParameter("kaptcha");
-			
+		
 			if (user!=null) {
 				if(code.equals(parm)){
 					session.setAttribute("current", user.getUsername());
+				//	public String loginPage(HttpSession session,Model model) {
+					WebFrontHelper webtree = new WebFrontHelper();
+						EasyuiTreeNode node = webtree.buildTreeForEasyuiTree(this.sysMenuService.findAll());	
+						
+						
+						model.addAttribute("treeJson", new Gson().toJson(node.getChildren()));
+						
+						//}
+
 				return "index";
+				}else{
+					request.setAttribute("msg","验证码错误");
+					return "login";
 				}
 			} else {
-					request.setAttribute("msg","登录失败");
+				request.setAttribute("msg","登录失败");
 				return "login";
 			}
 			
-			return "login";
+			
 			
 		}
 		
@@ -241,7 +238,7 @@ public class SelectController {
 	    }
 		
 		
-	    /**
+	   /**
 		 * 图表显示
 		 * @param 
 		 * @param
@@ -252,9 +249,9 @@ public class SelectController {
 			user.setPageSize(10000);
 			user.setPage(0);
 			List<User> cusList = selectService.exclUser(user);
-			/**
-			 * Chart
-			 */
+			
+			
+			
 			Chart chart=new Chart();
 			chart.setCaption("人员年龄统计表");//图表里面的标题
 			chart.setxAxisName("在职人员");//图表里面底端的介绍   x轴    //*用的是柱状图flash插件

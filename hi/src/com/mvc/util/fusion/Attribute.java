@@ -1,4 +1,6 @@
 package com.mvc.util.fusion;
+
+
 import java.lang.reflect.Field;
 
 public class Attribute {

@@ -56,6 +56,7 @@
 	<!--配置Mapper的相关信息，并将其与sqlSessionFactory相关联，使得sqlSessionFactory可以读取到相关Mapper.xml的配置信息，并执行相关操作。 -->
 		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.mvc.dao" />
+		
 	</bean>
 
 <!-- 验证码 -->
@@ -78,6 +79,11 @@
                 </bean>  
             </property>  
         </bean>  
+	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
+<!-- 	<context:component-scan base-package="com.mvc">
+		<context:include-filter type="regex" expression="com.mvc.*" />
+		
+	</context:component-scan> -->
 
 
 

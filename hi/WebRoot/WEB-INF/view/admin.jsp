@@ -21,9 +21,10 @@
 <body>
 
 <div style="padding:50px 50px 50px 30px;height:auto;width:auto;color:red; ">  
+   
    <span style="line-height:50px"> 账号: <input class="easyui-validatebox" type="text" name="username" id="username"  ">  
    <br></span> 
-<br><span style="float:left;margin-top:20px;margin-bottom:20px;">
+<br>
  <div id="check_button"  style="z-index:100;position:absolute;left:50px;top:250px;width:80px;height:30px;background-color:red;color:white;cursor:pointer;background:url(<%=request.getContextPath() %>/static/images/search.gif);"
 onclick="check_user()">
    </div>
@@ -244,16 +245,16 @@ var params=new Object();
 
 //select 
 function check_user(){
-		var id=$('#id').val();
+	//	var id=$('#id').val();
 		var userName=  $('#username').val();
-		var password= $('#password').val();
+	//	var password= $('#password').val();
 		
 		
 		
 		$('#select_dg').datagrid('load',{
-			'id' : id,
+		//	'id' : id,
 			'username' : userName,
-			'password' : password
+		//	'password' : password
 			
 		});
 

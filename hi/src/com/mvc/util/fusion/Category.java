@@ -1,6 +1,8 @@
 package com.mvc.util.fusion;
 
 
+
+
 public class Category extends Attribute{
 	private String label;
 	public Category(String label){

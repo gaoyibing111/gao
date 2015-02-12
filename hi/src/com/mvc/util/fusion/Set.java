@@ -1,5 +1,7 @@
 package com.mvc.util.fusion;
 
+
+
 public class Set extends Attribute{
 	private String name;
 	private String label;
