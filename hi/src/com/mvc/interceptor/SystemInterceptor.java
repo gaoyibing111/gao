@@ -39,20 +39,20 @@ public class SystemInterceptor implements HandlerInterceptor{
 		
 		uri = uri.replaceFirst(request.getContextPath(), "");
 
-		if (! uri.startsWith("/select")) {  //监控的路径
-		//	if (! uri.startsWith("/index"))
-			
+ 		if (! uri.startsWith("/select")) {  //监控的路径
+ 					if (! uri.startsWith("/main"))
+		
 			
 			return true;
 		}
-
+		
 		if (request.getSession().getAttribute(Sys.USER_SESSION_KEY) == null) { // "current"  查看会话的字符标识是否匹配 ****Sys.USER_SESSION_KEY==session当时定义的字串
 			// 未登录
 			PrintWriter out = response.getWriter();
 			StringBuilder builder = new StringBuilder();
 			builder.append("<script type=\"text/javascript\" charset=\"UTF-8\">");
-			builder.append("window.top.location.href=\"");
-			builder.append(request.getContextPath());
+			builder.append("window.top.location.href=\"login");
+	//		builder.append(request.getContextPath());
 			builder.append("/\";</script>");
 			out.print(builder.toString());
 			out.close();

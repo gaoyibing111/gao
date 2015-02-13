@@ -38,7 +38,7 @@
 	</bean>
 
 	<!--重新定向，解析为视图 定义无Controller的path<->view直接映射 -->
-	<mvc:view-controller path="/" view-name="login" />
+	<mvc:view-controller path="/" view-name="index" />
 	
 	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> 

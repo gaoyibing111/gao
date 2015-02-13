@@ -109,58 +109,9 @@ public class SelectController {
 	}
 	
 	
-	@Resource
-	private SysMenuService sysMenuService;
+	
 		
-		@RequestMapping(value="/login",method = {  RequestMethod.POST ,RequestMethod.GET})
-		
-			
-		public String login(@RequestParam(value = "username", required=true)String username,
-				@RequestParam(value = "password", required=true)String password,
-				HttpSession session,Admin admin,HttpServletRequest request,HttpServletResponse response,Model model
-				
-				) {
-		
-		
-			String code = (String)session.getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
-			Admin user = this.selectService.loadUserByUsernameAndPassword(username,password);
-			String parm = (String)request.getParameter("kaptcha");
-		
-			if (user!=null) {
-				if(code.equals(parm)){
-					session.setAttribute("current", user.getUsername());
-				//	public String loginPage(HttpSession session,Model model) {
-					WebFrontHelper webtree = new WebFrontHelper();
-						EasyuiTreeNode node = webtree.buildTreeForEasyuiTree(this.sysMenuService.findAll());	
-						
-						
-						model.addAttribute("treeJson", new Gson().toJson(node.getChildren()));
-						
-						//}
-
-				return "index";
-				}else{
-					request.setAttribute("msg","验证码错误");
-					return "login";
-				}
-			} else {
-				request.setAttribute("msg","登录失败");
-				return "login";
-			}
-			
-			
-			
-		}
-		
-		@RequestMapping("/logout")
-		public String logout(HttpSession session) {
-			if (session != null) {
-				session.invalidate();
-			
-			}
-			
-			return "login";
-		}
+	
 		
 		
 	/**
