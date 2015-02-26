@@ -3,7 +3,7 @@ package com.mvc.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SysMenu {
+public class SysMenu extends PageBean{
 	
 	private String menuId;
 	
@@ -14,6 +14,16 @@ public class SysMenu {
 	private String parentMenuId;
 	
 	private List<SysMenu> children = new ArrayList<SysMenu>();
+	
+	private String state;
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	public void addChild(SysMenu menu) {
 		if (! this.children.contains(menu)) {
@@ -63,6 +73,11 @@ public class SysMenu {
 
 	public void setParentMenuId(String parentMenuId) {
 		this.parentMenuId = parentMenuId;
+	}
+
+	public void addPage(PageBean page) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

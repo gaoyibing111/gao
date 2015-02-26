@@ -24,7 +24,8 @@ public class WebFrontHelper {
 	public void setSysMenuService(SysMenuService sysMenuService) {
 		this.sysMenuService = sysMenuService;
 	}
-
+//easyui treegrid
+	
 	public static SysMenu buildMenuTree(List<SysMenu> menus) {
 
 		Map<String, SysMenu> menuMap = new LinkedHashMap<String, SysMenu>();
@@ -35,23 +36,32 @@ public class WebFrontHelper {
 
 		for (SysMenu menu : menus) {
 			menuMap.put(menu.getMenuId(), menu);
+			
+			
 		}
 
 		for (SysMenu menu : menus) {
 			String parentMenuId = menu.getParentMenuId();
 			if (parentMenuId == null || "".equals(parentMenuId)) {
+		
 				parentMenuId = "root";
 			}
-
+			/*if (menu.getMenuUrl().equals("0")){
+			menu.setState("closed");
+			
+			}*/
 			menuMap.get(parentMenuId).addChild(menu);
+			
+			
 		}
-
+	
+			
 		return rootMenu;
 	}
 
 
 
-
+//easyui tree
 	public  EasyuiTreeNode buildTreeForEasyuiTree(List<SysMenu> menus,
 			List<String> menuIdsForChecked) {
 
@@ -96,8 +106,11 @@ public class WebFrontHelper {
 			
 			if (menu.getMenuUrl().equals("0")){
 				
+			
 				node.setState("closed"); 
-			}
+			
+				}
+			
 			map.put(node.getId(), node);
 
 		}
@@ -114,8 +127,9 @@ public class WebFrontHelper {
 			if (parentId == null || "".equals(parentId)) {
 				parentId = "root";
 			}
-
+			
 			map.get(parentId).addChild(node);
+		
 		}
 
 		if (menuIdsForChecked != null && menuIdsForChecked.size() > 0) {
@@ -132,10 +146,84 @@ public class WebFrontHelper {
 		return root;
 	}
 
+	
+	
 	public   EasyuiTreeNode buildTreeForEasyuiTree(List<SysMenu> menus) {
 		return buildTreeForEasyuiTree(menus, null);
 	}
 	
+	
+/////
+	
+	
+	
+	/*
+	public  EasyuiTreeNode buildTreeForEasyuiTreeGrid(List<SysMenu> menus,
+			List<String> menuIdsForChecked) {
 
+		Map<String, EasyuiTreeNode> map = new LinkedHashMap<String, EasyuiTreeNode>();
+		EasyuiTreeNode root = new EasyuiTreeNode();
+		root.setId("root");
+		root.setText("Root");
+		map.put("root", root);
+		
+	
+		
+		for (SysMenu menu : menus) {
+			EasyuiTreeNode node = new EasyuiTreeNode();
+			node.setId(menu.getMenuId());
+			node.setText(menu.getMenuName());
+			node.setParentId(menu.getParentMenuId());
+			node.setAttributes(menu);
+	
+			
+			if (menu.getMenuUrl().equals("0")){
+				
+			
+				node.setState("closed"); 
+			
+				}
+		if(menu.getParentMenuId()!="root"){
+			map.put(node.getId(), node);
+			
+		}
+		
+			
+		}
 
+		for (Map.Entry<String, EasyuiTreeNode> entry : map.entrySet()) {
+			EasyuiTreeNode node = entry.getValue();
+
+			if ("root".equals(node.getId())) {
+				continue;
+			}
+
+			String parentId = node.getParentId();
+
+			if (parentId == null || "".equals(parentId)) {
+				parentId = "root";
+			}
+			
+			map.get(parentId).addChild(node);
+		
+		}
+
+		if (menuIdsForChecked != null && menuIdsForChecked.size() > 0) {
+			for (Map.Entry<String, EasyuiTreeNode> entry : map.entrySet()) {
+				EasyuiTreeNode node = entry.getValue();
+
+				if (menuIdsForChecked.contains(node.getId())) {
+					node.setChecked(true);
+				}
+
+			}
+		}
+
+		return root;
+	}
+
+	public   EasyuiTreeNode buildTreeForEasyuiTreeGrid(List<SysMenu> menus) {
+		return buildTreeForEasyuiTree(menus, null);
+	}
+	*/
 }

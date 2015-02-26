@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<div style="padding:50px 50px 50px 30px;height:auto;width:auto;color:red; ">  
+<div id="search" style="padding:50px 50px 50px 30px;width:350px;height:400px;color:red;" class="easyui-dialog" title="搜索信息" closed="true" >  
    
    <span style="line-height:50px"> 账号: <input  type="text" name="username" id="usernames"/> 
    <br></span> 
@@ -30,14 +30,12 @@ onclick="check_user()">
    </div>
 
 
-<div  style="position:absolute;left:400px;top:50px;">
-<table id="select_dg" class="easyui-datagrid"  style="width:960px;height:380px; " title="账号列表" iconCls="icon-save"  
+</div> 
+<table id="select_dg" class="easyui-datagrid"  style="width:auto; " title="账号列表" iconCls="icon-save"  
        rownumbers="true" pagination="true" singleSelect="true"> <!-- 在datagrid中设置了pagination为true，就会自己带上分页,
        分页时向后台传去两个参数，一个就是当前页数另一个就是每页显示行数；fitcolumns：自适应列宽；singleselected:单选。
         -->
-</table></div><!-- table -->
-</div> 
-
+</table>
 <!--hehe！  <div id="user_list_dg_toolbar" style="float:left" >
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openNewWin()">添加</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEditWin()">修改</a>
@@ -78,9 +76,16 @@ var UrlConfig = {
 	};
 
 
-$('#select_dg').datagrid({     
+$('#select_dg').datagrid({ 
+	fit:true,
     'url' : UrlConfig.SelectfinAll ,  //没指定url的，要刷新datagrid都会走 SelectfinAll下的/select
     toolbar:[{//正上方工具栏  
+        text:'查询账户信息',  
+        iconCls:'icon-search',  
+        handler:function(){  
+        openSearch();  
+        }  
+     },'-',{//正上方工具栏  
     	            text:'添加新用户账号',  
     	           iconCls:'icon-add',  
     	           handler:function(){  
@@ -219,7 +224,7 @@ function deleteUser() {
 
 
 
-//设置分页控件  
+/* //设置分页控件  
 var p = $('#select_dg').datagrid('getPager');  
 p.pagination({  
    // pageSize: 100,//每页显示的记录条数，默认为10  
@@ -228,7 +233,7 @@ p.pagination({
     afterPageText: '页    共 {pages} 页',  
     displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'  
 
-}); 
+});  */
 
 /**var param={
 		name: "",
@@ -244,6 +249,11 @@ var params=new Object();
 
 
 //select 
+
+function openSearch(){
+	  $('#user_info_form').form('clear');
+		$('#search').dialog('open');
+  }
 function check_user(){
 	//	var id=$('#id').val();
 		var userName=  $('#usernames').val();

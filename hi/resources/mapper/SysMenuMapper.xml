@@ -3,10 +3,27 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mvc.dao.SysMenuDao">
-
 <select id="findAll" resultType="SysMenu">
-		select * from sys_menu
+		select * from sys_menu<!--  where menu_url LIKE CONCAT('0') limit #{page},#{pageSize} -->
+		
 	</select>
+<!-- 	<select id="findAllPage" resultType="SysMenu">
+		select * from sys_menu
+ 	 	<where>
+	menu_url LIKE CONCAT('0')
+	
+	     parent_menu_id = "root"
+	   
+		</where> 
+	  	limit #{page},#{pageSize} 
+	</select>
+	
+	  <select id="getTotal" resultType="long" parameterType="com.mvc.domain.PageBean" >
+		select count(*) from sys_menu where menu_url LIKE CONCAT('0')
+	select count(*) from sys_menu where parent_menu_id = "root"
+	
+	</select> -->
+	
 	
 	<select id="findByChildId"  resultType="SysMenu">
 		select distinct m.menu_id, m.menu_name, m.menu_url, m.parent_menu_id
@@ -30,14 +47,26 @@
 	</insert>
 
 
-	
+<!-- 
+<select id="findAllChi" resultType="SysMenu">
+		select * from sys_menu 
+		
+ </select> -->
 
 
+<update id="update" parameterType="SysMenu"> 
+  		UPDATE sys_menu
+  		SET
+  			menu_name = #{menuName, jdbcType=VARCHAR},  
+			menu_url = #{menuUrl, jdbcType=VARCHAR},  
+			parent_menu_id = #{parentMenuId, jdbcType=VARCHAR}
+  		where menu_id = #{menuId}
+	</update>
 
 
-
-
-
-
+<delete id="delete" parameterType="string">
+    	DELETE FROM sys_menu
+    	WHERE menu_id = #{menuId}
+    </delete>
 
 </mapper>

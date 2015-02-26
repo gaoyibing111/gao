@@ -14,7 +14,7 @@
 <title>菜单管理</title>
 </head>
 <body>
-<table id="mebu_list_dg" style="width:auto"></table>
+<table id="mebu_list_dg" style="width:auto" pagination="true" singleSelect="true"></table>
 
 <div id="mebu_list_dg_toolbar">
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openAddWin()">添加</a>
@@ -58,11 +58,12 @@
 <script type="text/javascript">
 var UrlConfig = {
 	SysMenuAdd: '<%=request.getContextPath() %>/menu/add',
-	SysMenuUpdate: '<%=request.getContextPath() %>/app/sys/menu/update',
-	SysMenuDelete: '<%=request.getContextPath() %>/app/sys/menu/delete',
-	SysMenuList: '<%=request.getContextPath() %>/menu/list'
+	SysMenuUpdate: '<%=request.getContextPath() %>/menu/update',
+	SysMenuDelete: '<%=request.getContextPath() %>/menu/delete',
+	SysMenuList: '<%=request.getContextPath() %>/menu/list'     
 };
 
+//var treeData = <%=request.getAttribute("treeJsonG") %>;
 $(function() {		
 	$('#mebu_list_dg').treegrid({
 		rownumbers:true,
@@ -73,12 +74,47 @@ $(function() {
 		treeField:'menuName',
 		fit: true,
 		fitColumns: true,
+//	onLoadSuccess: function () {$('#mebu_list_dg').treegrid('collapseAll')},   	 //treegrid初始化合并
+  	 /*		onBeforeLoad : function(row){
+  			if(row){
+
+				$(this).treegrid('append',{ parent: row.menuId, 
+					data: treeData});
+			}
+	
+  	 	},	
+		
+		
+		
+		onBeforeExpand: function(row){
+		
+			$('#mebu_list_dg').treegrid('append',{
+				parent: row.menuId,  // the node has a 'id' value that defined through 'idField' property
+				
+		//		url:'<%=request.getContextPath() %>/menu/list'
+				
+				
+				
+				 data:'<%=request.getContextPath() %>/menu/list'
+			
+				   
+				[{
+					"menuId":21,"menuName":"Database","menuUrl":2,"parentMenuId":"0"
+				}]   }); 
+		}, */
 		columns: [[
 			{title:'菜单名字', field:'menuName'},
 			{title:'菜单URL', field:'menuUrl', width:300}
 		]]
 	});
+	
+	/* $('#mebu_list_dg').treegrid('expand',function(id){
+		//alert(id);
+	}); */
+
 });
+
+
 
 var url = '';
 
@@ -91,7 +127,13 @@ function openAddWin() {
 		$('#parentMenuName').val(row.menuName);
 		$('#parentMenuId').val(row.menuId);
 	}
+	if(row){
 	
+		  if(row.menuUrl!=0){
+			 $.messager.show({ title: '操作结果', msg: '非顶级菜单' });
+			 return true;
+		}
+	}
 	$('#menu_save_dialog').dialog('open');
 	url = UrlConfig.SysMenuAdd;
 }
@@ -151,6 +193,21 @@ function deleteMenu() {
 		}
 	});
 }
+
+
+
+//设置分页控件  
+var p = $('#mebu_list_dg').datagrid('getPager');  
+p.pagination({  
+   // pageSize: 100,//每页显示的记录条数，默认为10  
+  //  pageList: [5, 10, 15],//可以设置每页记录条数的列表    //在控制层参数已初始化
+    beforePageText: '第',//页数文本框前显示的汉字  
+    afterPageText: '页    共 {pages} 页',  
+    displayMsg: '当前显示 {from} - {to} 条菜单记录   共 {total} 条记录'  
+
+}); 
+
+
 
 </script>
 </body>

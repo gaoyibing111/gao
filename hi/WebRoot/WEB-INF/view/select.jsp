@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<div style="padding:50px 50px 50px 30px;height:auto;width:auto;color:red; ">  
+<div  id="search" style="padding:50px 50px 50px 30px;color:red;width:350px;height:400px "  class="easyui-dialog" title="搜索信息" closed="true">  
    <span style="line-height:50px"> 职工号: <input class="easyui-validatebox" type="text" name="user_id" id="user_id"  ">  
    <br><span style="margin-top:150px">名&nbsp;&nbsp;字: <input class="easyui-validatebox" type="text" name="user_name" id="user_name" ">
    </span></span> 
@@ -32,15 +32,12 @@
 onclick="check_user()">
    </div>
 
-
-<div  style="position:absolute;left:400px;top:50px;">
-<table id="select_dg" class="easyui-datagrid"  style="width:960px;height:380px; " title="人员列表" iconCls="icon-save"  
+</div> 
+<table id="select_dg"  style="width:auto; " title="人员列表" iconCls="icon-save"  
        rownumbers="true" pagination="true" singleSelect="true"> <!-- 在datagrid中设置了pagination为true，就会自己带上分页,
        分页时向后台传去两个参数，一个就是当前页数另一个就是每页显示行数；fitcolumns：自适应列宽；singleselected:单选。
         -->
-</table></div><!-- table -->
-</div> 
-
+</table>
 <!--hehe！  <div id="user_list_dg_toolbar" style="float:left" >
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openNewWin()">添加</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="openEditWin()">修改</a>
@@ -96,9 +93,16 @@ var UrlConfig = {
 	};
 
 
-$('#select_dg').datagrid({     
+$('#select_dg').datagrid({ 
+	fit:true ,
     'url' : UrlConfig.SelectfinAll ,  //没指定url的，要刷新datagrid都会走 SelectfinAll下的/select
     toolbar:[{//正上方工具栏  
+        text:'查询员工信息',  
+        iconCls:'icon-search',  
+        handler:function(){  
+        openSearch();  
+        }  
+     },'-',{//正上方工具栏  
     	            text:'添加新员工',  
     	           iconCls:'icon-add',  
     	           handler:function(){  
@@ -263,6 +267,10 @@ var params=new Object();
 
 
 //select 
+function openSearch(){
+	  $('#user_info_form').form('clear');
+		$('#search').dialog('open');
+  }
 function check_user(){
 	
 		var userId=  $('#user_id').val();
