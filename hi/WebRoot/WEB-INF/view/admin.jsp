@@ -77,6 +77,8 @@ var UrlConfig = {
 
 
 $('#select_dg').datagrid({ 
+	singleSelect:false,
+	idField:'id',
 	fit:true,
     'url' : UrlConfig.SelectfinAll ,  //没指定url的，要刷新datagrid都会走 SelectfinAll下的/select
     toolbar:[{//正上方工具栏  
@@ -119,10 +121,16 @@ $('#select_dg').datagrid({
   	               handler:function(){  
   	            	 doChart();  
                 		 }  
-     	        }  
+     	        },'-',{  
+  	               text:'批量删除记录',  
+  	               iconCls:'icon-undo',  
+  	               handler:function(){  
+  	            	 flexiDelete();  
+                		 }  
+     	        }   
  	        ] ,
     'columns' :[[  
-		  
+		{field:'ck',checkbox:true},
         {field:'username',title:'账号',width:100,align:'center'},     
         {field:'password',title:'密码',width:250,align:'center'},  
        
@@ -217,12 +225,35 @@ function deleteUser() {
     } else {
     	alert('请选择用户');
     }
-    
-    
-}
+  }
 
 
-
+//批量删除的按钮
+function flexiDelete() {
+//	flexiRemove();  调用单个删除，由于系统中给删除指定的是批量删除
+//	return false;
+	var rows = $('#select_dg').datagrid('getSelections');
+	if (rows.length == 0) {
+		$.messager.alert('操作提示', '请选择数据!', 'warning');
+		return false;
+	}
+	var arr = [];
+	for ( var i = 0; i < rows.length; i++) {
+		arr.push(rows[i].id);
+	}
+	$.messager.confirm('操作提示', "确认删除这 " + arr.length + " 项吗？(批量删除)", function(r) {
+		if (r) {
+			
+			$.getJSON("<%=request.getContextPath() %>/jsonBatchRemoveAdmin.do",{"array[]":arr}  );
+				 //这一处，传过去的值一定要是变量名[]  例如：array[] ，把这个数组传到后台  
+			$('#select_dg').datagrid('reload');
+			$.messager.progress('close'); 
+			$.messager.show({ title: '操作结果', msg: '操作成功' });
+		} //if(r)
+		
+	});
+	return true;
+};
 
 /* //设置分页控件  
 var p = $('#select_dg').datagrid('getPager');  

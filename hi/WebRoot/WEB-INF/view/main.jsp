@@ -74,15 +74,16 @@ $(function(){
 		},
 		formatter: function(node) {
 			return node.text;
-		}
+		}, onSelect:function(node){   //单击标题后展开 
+			if(node.state=='closed'){
+			$(this).tree('expand',node.target); 
+			}else{
+				$(this).tree('collapse',node.target); 
+			}
+			},
+		
 	});
-/* 	$('#tabs').panel({
-				fit:true,
-				border:false,
-				noheader:false,
-				
-			
-	}); */
+
 });
 </script>
 

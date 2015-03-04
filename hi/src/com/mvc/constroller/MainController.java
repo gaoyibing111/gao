@@ -35,7 +35,7 @@ public class MainController{
     public String registPostsss(Model model){  
     	
     	
-    	  WebFrontHelper webtree = new WebFrontHelper();
+    		WebFrontHelper webtree = new WebFrontHelper();
     		EasyuiTreeNode node = webtree.buildTreeForEasyuiTree(this.sysMenuService.findAll());	
     		
     		

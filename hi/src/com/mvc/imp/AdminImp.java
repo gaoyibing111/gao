@@ -17,6 +17,7 @@ import com.mvc.dao.AdminDao;
 
 import com.mvc.domain.Admin;
 import com.mvc.domain.PageBean;
+import com.mvc.domain.User;
 
 import com.mvc.service.AdminService;
 import com.mvc.util.AppHelper;
@@ -76,5 +77,19 @@ public class AdminImp implements AdminService{
 		newPassword = AppHelper.encryptPassword(newPassword);
 		this.adminDao.updatePassword(username, newPassword);
 	}
+	
+	
+	   /**
+     * 依据ID集合批量删除记录
+     * 
+     * @param id
+     * @return
+     */
+	public void deleteAll(List<Admin> list){
+		for (Admin to : list) { 
+			this.adminDao.delete(to); //调用单个删除
+			} 
+	}
+	
 	
 }

@@ -216,7 +216,26 @@ public class AdminController  {
 	    }
 	*/
 	
-	
+	/**
+	 * JSON批量删除Action处理
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "jsonBatchRemoveAdmin.do", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public Result jsonBatchRemove(HttpServletRequest request) {
+		
+		String[] array = request.getParameterValues("array[]");  
+		
+		List<Admin> list = new ArrayList<Admin>(); 
+		for (int i = 0; i < array.length; i++) { 
+			Admin totrecords = new Admin(); 
+		totrecords.setId(Integer.valueOf(array[i])); 
+		list.add(totrecords); 
+		} 
+		this.adminService.deleteAll(list);
+		return  new Result();
+	}
 	
 	
 	

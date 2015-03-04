@@ -55,7 +55,11 @@ function openEditWin() {
 		alert('请选择用户'); 
 		return;
 	}
-	
+	var arr = $('#select_dg').datagrid('getSelections');
+	if (arr.length != 1) {
+		alert('请选择一条记录');
+		return;
+	}
 	$('#user_password_form').form('load', row);	
 
 	 $('#updatepass').dialog('open'); 

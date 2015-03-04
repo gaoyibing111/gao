@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import com.mvc.dao.SelectDao;
 import com.mvc.service.*;
 import com.mvc.util.AppHelper;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 @Service
 public class SelectImp implements SelectService {
@@ -88,5 +89,16 @@ public class SelectImp implements SelectService {
 	}
 	
 	
+	   /**
+     * 依据ID集合批量删除记录
+     * 
+     * @param id
+     * @return
+     */
+	public void deleteAll(List<User> list){
+		for (User to : list) { 
+			this.selectDao.delete(to); //调用单个删除
+			} 
+	}
 	
 }

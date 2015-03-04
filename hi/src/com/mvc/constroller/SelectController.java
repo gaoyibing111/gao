@@ -17,26 +17,22 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-import com.mvc.domain.Admin;
 import com.mvc.domain.PageBean;
 import com.mvc.domain.User;
 import com.mvc.service.SelectService;
-import com.mvc.service.SysMenuService;
-import com.mvc.util.EasyuiTreeNode;
 import com.mvc.util.Result;
-import com.mvc.util.WebFrontHelper;
 import com.mvc.util.fusion.Chart;
 import com.mvc.util.fusion.Dataset;
+import com.mysql.jdbc.Messages;
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
+
 
  
 @Controller  
@@ -108,7 +104,26 @@ public class SelectController {
 		return new Result();
 	}
 	
-	
+	/**
+	 * JSON批量删除Action处理
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "jsonBatchRemove.do", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public Result jsonBatchRemove(User user, HttpServletResponse response,HttpServletRequest request) {
+		
+		String[] array = request.getParameterValues("array[]");  
+		
+		List<User> list = new ArrayList<User>(); 
+		for (int i = 0; i < array.length; i++) { 
+		User totrecords = new User(); 
+		totrecords.setId(Integer.valueOf(array[i])); 
+		list.add(totrecords); 
+		} 
+		this.selectService.deleteAll(list);
+		return  new Result();
+	}
 	
 		
 	

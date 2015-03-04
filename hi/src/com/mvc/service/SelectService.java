@@ -13,6 +13,7 @@ import com.mvc.dao.SelectDao;
 import com.mvc.domain.Admin;
 import com.mvc.domain.PageBean;
 import com.mvc.domain.User;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 
 public interface SelectService {
@@ -44,8 +45,15 @@ public interface SelectService {
 		
 	List excl(Admin admin);
 	List<User> exclUser(User user);
-	
-	
 
+	
+	   /**
+     * 依据ID集合批量删除记录
+     * 
+     * @param id
+     * @return
+     */
+	void deleteAll(List<User> list);
+  
 	
 }

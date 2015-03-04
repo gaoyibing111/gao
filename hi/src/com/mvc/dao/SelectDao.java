@@ -7,7 +7,9 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+
 import com.mvc.domain.*;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 
 
@@ -38,6 +40,8 @@ public interface SelectDao {
 	//导出到excel
 	List excl(Admin admin);
 	List<User> exclUser(User user); 
+	
+	
 	
 
     

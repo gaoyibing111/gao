@@ -14,7 +14,7 @@
 <title>菜单管理</title>
 </head>
 <body>
-<table id="mebu_list_dg" style="width:auto" pagination="true" singleSelect="true"></table>
+<table id="mebu_list_dg" style="width:auto" pagination="true" singleSelect="true" title="菜单列表" iconCls="icon-save"></table>
 
 <div id="mebu_list_dg_toolbar">
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="openAddWin()">添加</a>
@@ -198,7 +198,7 @@ function deleteMenu() {
 
 //设置分页控件  
 var p = $('#mebu_list_dg').datagrid('getPager');  
-p.pagination({  
+p.pagination({  	
    // pageSize: 100,//每页显示的记录条数，默认为10  
   //  pageList: [5, 10, 15],//可以设置每页记录条数的列表    //在控制层参数已初始化
     beforePageText: '第',//页数文本框前显示的汉字  
